@@ -18,18 +18,17 @@ const createGameState = chatId => {
 	return gameStates[chatId]
 }
 const getGreetMessage = isGroup => trueTrim(`
-	👋 Привет. Я — бот для игры в «угадай возраст» в групповых чатах.
-
-	📋 Правила просты: я кидаю вам фото человека, а ваша задача угадать его возраст. Чем точнее вы отвечаете, тем меньше баллов теряете.
-	${isGroup ? "" : "\n😉 Для начала, добавь меня в чат и вызови /game.\n"}
+	👋 Salam. Mən qrup çatlarında yaş botu olduğunu düşünürəm.
+QaQaydaa sadedir: Mən sizə bir insanın şəklini atıram və sizin vəzifəniz onun yaşını təxmin etməkdir.  Nə qədər dəqiq cavab versəniz, bir o qədər az xal itirirsiniz.
+	${isGroup ? "" : "\n🤗 Əvvəlcə məni söhbətə əlavə edin və zəng edin /game.\n"}
 	*Команды*
 	/game - Начать игру
 	/stop - Остановить игру
 	/top - Рейтинг игроков чата
 	/donate - Поддержать проект деньгами
 
-	Автор: @mikhailsdv
-	Мой канал: @FilteredInternet
+	Sahib: @Roxy_BoBs ve @Eyoydu
+	Resmi Kanal: @FlackResmi
 `)
 const getRandomPerson = () => {
 	let imagePath = "./photos"
@@ -97,13 +96,13 @@ const stopGame = (ctx, chatId) => {
 
 				${top.sort((a, b) => b.score - a.score).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${member.score} ${pluralize(member.score, "очко", "очка", "очков")}`).join("\n")}
 
-				❤️ Канал автора, где иногда публикуются новые прикольные боты @FilteredInternet.
-				🔄 /game - Еще разок?
+				❤️ ❤️ Bəzən yeni gözəl botların @FlackResmi nəşr olunduğu müəllif kanalı
+				🔄 /game - Bir daha?
 			`))
 		}
 	}
 	else {
-		ctx.reply("❌ Игра не была запущена. Вы можете запутить ее командой /start.")
+		ctx.reply("❌ Oyun işə salınmayıb.  Onu əmrlə çaşdıra bilərsiniz /start.")
 	}
 }
 const getRoundMessage = (chatId, round, time) => {
@@ -121,8 +120,8 @@ const getRoundMessage = (chatId, round, time) => {
 	answers = answers.sort((a, b) => gameStates[chatId].answersOrder.indexOf(a.memberId) - gameStates[chatId].answersOrder.indexOf(b.memberId))
 
 	return trueTrim(`
-		*Раунд ${round + 1}/${config.rounds}*
-		Сколько, по-вашему, лет этому человеку?
+		*Раунд ${round + 1}/${config.rounds}
+                 Sizcə bu adam neçə yaşındadır?
 		${answers.length > 0 ? 
 			`\n${answers.map((member, index) => `${index + 1}. *${member.firstName}*: ${member.answer}`).join("\n")}\n`
 			:
@@ -184,7 +183,7 @@ const startGame = (ctx, chatId) => {
 			if (!top.every(member => member.answer === null)) {
 				ctx.replyWithMarkdown(
 					trueTrim(`
-						Человеку на этом фото *${rightAnswer} ${pluralize(rightAnswer, "год", "года", "лет")}*. Вот, кто был ближе всего:
+						Человеку на этом фото *${rightAnswer} ${pluralize(rightAnswer, "il", "Gun", "iller")}*.Budur kim daha yaxın idi:
 
 						${top.sort((a, b) => b.addScore - a.addScore).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${plusminus(member.addScore)}`).join("\n")}
 					`),
@@ -232,7 +231,7 @@ bot.command("game", (ctx) => {
 		let chat = getChat(chatId)
 		if (chat) {
 			if (chat.isPlaying) {
-				return ctx.reply("❌ У вас уже запущена игра. Вы можете ее остановить командой /stop.")
+				return ctx.reply("❌ Sizdə artıq oyun var.  Komanda ilə dayandıra bilərsiniz /stop.")
 			}
 			else {
 				chat.isPlaying = true
@@ -246,11 +245,11 @@ bot.command("game", (ctx) => {
 		else {
 			createChat(chatId)
 		}
-		ctx.replyWithMarkdown("*Игра начинается!*")
+		ctx.replyWithMarkdown("*Oyun Baslayir!*")
 		startGame(ctx, chatId)
 	}
 	else {
-		ctx.reply("❌ Эта команда доступна только для чатов.")
+		ctx.reply("❌ Bu əmr yalnız söhbətlər üçün əlçatandır.")
 	}
 })
 
@@ -261,7 +260,7 @@ bot.command("stop", (ctx) => {
 		stopGame(ctx, chatId)
 	}
 	else {
-		ctx.reply("❌ Эта команда доступна только для чатов.")
+		ctx.reply("❌ Bu əmr yalnız söhbətlər üçün əlçatandır.")
 	}
 })
 
@@ -301,20 +300,20 @@ bot.command("top", (ctx) => {
 
 					${top.sort((a, b) => b.score - a.score).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${member.score} ${pluralize(member.score, "очко", "очка", "очков")}`).join("\n")}
 
-					❤️ Канал автора, где иногда публикуются новые прикольные боты @FilteredInternet.
-					🔄 /game - Еще разок?
+					❤️ ❤️ Bəzən yeni gözəl botların @FilteredInternet nəşr olunduğu müəllif kanalı.
+					🔄 /game - Birdaha?
 				`))
 			}
 			else {
-				ctx.reply("❌ Вы еще не сыграли ни одной игры в этом чате.")
+				ctx.reply("❌ Bu çatda hələ heç bir oyun oynamamısınız.")
 			}
 		}
 		else {
-			ctx.reply("❌ Вы еще не сыграли ни одной игры в этом чате.")
+			ctx.reply("❌ Bu çatda hələ heç bir oyun oynamamısınız..")
 		}
 	}
 	else {
-		ctx.reply("❌ Эта команда доступна только для чатов.")
+		ctx.reply("❌ Bu əmr yalnız söhbətlər üçün əlçatandır.")
 	}
 })
 
