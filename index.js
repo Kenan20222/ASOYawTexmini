@@ -18,17 +18,17 @@ const createGameState = chatId => {
 	return gameStates[chatId]
 }
 const getGreetMessage = isGroup => trueTrim(`
-	👋 Salam. Mən qrup çatlarında yaş botu olduğunu düşünürəm.
-QaQaydaa sadedir: Mən sizə bir insanın şəklini atıram və sizin vəzifəniz onun yaşını təxmin etməkdir.  Nə qədər dəqiq cavab versəniz, bir o qədər az xal itirirsiniz.
+	👋 Salam. {}  Mən Hero qrup Chatlarında yaş oyunu botuyam
+Qayda sadedir: Mən sizə bir insanın şəklini atıram və sizin vəzifəniz onun yaşını təxmin etməkdir.  Nə qədər dəqiq cavab versəniz, bir o qədər az xal itirirsiniz.
 	${isGroup ? "" : "\n🤗 Əvvəlcə məni söhbətə əlavə edin və zəng edin /game.\n"}
-	*Команды*
-	/game - Начать игру
-	/stop - Остановить игру
-	/top - Рейтинг игроков чата
-	/donate - Поддержать проект деньгами
+	*Əmrlər*
+	/game - Oyuna Başlamaq
+	/stop - Oyunu Sonlandırmak
+	/top - Top 10
+	/donate - Bota Maddi Kömək etmək (ehtiyac Yoxdu)
 
-	Sahib: @Roxy_BoBs ve @Eyoydu
-	Resmi Kanal: @FlackResmi
+	Sahibim : @DexRoFF
+	Resmi Kanal: @DexBots
 `)
 const getRandomPerson = () => {
 	let imagePath = "./photos"
@@ -92,11 +92,11 @@ const stopGame = (ctx, chatId) => {
 		db.update(chatId, ch => chat)
 		if (top.length > 0) {
 			ctx.replyWithMarkdown(trueTrim(`
-				*🏁 А вот и победители:*
+				*🏁 Qazanan Budur:*
 
-				${top.sort((a, b) => b.score - a.score).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${member.score} ${pluralize(member.score, "очко", "очка", "очков")}`).join("\n")}
+				${top.sort((a, b) => b.score - a.score).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${member.score} ${pluralize(member.score, "xal", "xal", "xallar")}`).join("\n")}
 
-				❤️ ❤️ Bəzən yeni gözəl botların @FlackResmi nəşr olunduğu müəllif kanalı
+				❤️ ❤️ Bəzən yeni gözəl botların @DexBots nəşr olunduğu müəllif kanalı
 				🔄 /game - Bir daha?
 			`))
 		}
@@ -193,7 +193,7 @@ const startGame = (ctx, chatId) => {
 				)
 			}
 			else {
-				ctx.reply("🤔 Похоже, вы не играете. Ок, завершаю игру...")
+				ctx.reply("🤔 Görürəm ki Oynamırsan oyunu sonladırıram...")
 				stopGame(ctx, chatId)
 				return
 			}
@@ -266,12 +266,7 @@ bot.command("stop", (ctx) => {
 
 bot.command("donate", (ctx) => {
 	return ctx.replyWithMarkdown(trueTrim(`
-		Вот список доступных кошельков.
-
-		Яндекс.Деньги: \`410018465529632\`
-		QIWI: \`+77025852595\`
-		BTC: \`1MDRDDBURiPEg93epMiryCdGvhEncyAbpy\`
-		Kaspi (Казахстан): \`5169497160435198\`
+		DESTEK LAZIM DEYİL
 	`))
 })
 
@@ -296,11 +291,11 @@ bot.command("top", (ctx) => {
 			})
 			if (top.length > 0) {
 				ctx.replyWithMarkdown(trueTrim(`
-					*🔝 Лучшие игроки этого чата за все время:*
+					*🔝 Bu Chatta ən Yaxşı oynayanlar:*
 
 					${top.sort((a, b) => b.score - a.score).map((member, index) => `${["🏆","🎖","🏅"][index] || "🔸"} ${index + 1}. *${member.firstName}*: ${member.score} ${pluralize(member.score, "очко", "очка", "очков")}`).join("\n")}
 
-					❤️ ❤️ Bəzən yeni gözəl botların @FilteredInternet nəşr olunduğu müəllif kanalı.
+					❤️ ❤️ Bəzən yeni gözəl botların @DexBots nəşr olunduğu müəllif kanalı.
 					🔄 /game - Birdaha?
 				`))
 			}
